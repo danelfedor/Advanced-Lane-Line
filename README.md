@@ -19,12 +19,12 @@ The goals / steps of this project are the following:
 
 [//]: # (Image References)
 
-[image1]: ./examples/undistort_output.png "Undistorted"
-[image2]: ./test_images/test1.jpg "Road Transformed"
-[image3]: ./examples/binary_combo_example.jpg "Binary Example"
-[image4]: ./examples/warped_straight_lines.jpg "Warp Example"
-[image5]: ./examples/color_fit_lines.jpg "Fit Visual"
-[image6]: ./examples/example_output.jpg "Output"
+[image1]: ./output_images/chessboard.png "Undistorted"
+[image2]: ./output_images/distortion.jpg "Road Transformed"
+[image3]: ./output_images/binary.jpg "Binary Example"
+[image4]: ./output_images/perspective.jpg "Warp Example"
+[image5]: ./output_images/fit_res.jpg "Fit Visual"
+[image6]: ./output_images/result.jpg "Output"
 [video1]: ./project_video.mp4 "Video"
 
 ## [Rubric](https://review.udacity.com/#!/rubrics/571/view) Points
@@ -48,15 +48,18 @@ I then used the output `objpoints` and `imgpoints` to compute the camera calibra
 
 ### Pipeline (single images)
 
+#### 1. Has the distortion correction been correctly applied to each image?
+
 To demonstrate this step, I will describe how I apply the distortion correction to one of the test images like this one:
 ![alt text][image2]
 
-
-I used a combination of color and gradient thresholds to generate a binary image (thresholding steps at lines # through # in `project_main.ipynb`).  Here's an example of my output for this step.  (note: this is not actually from one of the test images)
+#### 2. Has a binary image been created using color transforms, gradients or other methods?
+I used a combination of color and gradient thresholds to generate a binary image (thresholding steps at lines # through # in `another_file.py`).  Here's an example of my output for this step.  (note: this is not actually from one of the test images)
 
 ![alt text][image3]
 
-The code for my perspective transform includes a function called `warper()`,(output_images/examples/example.py) (or, for example, in the 3rd code cell of the IPython notebook).  The `warper()` function takes as inputs an image (`img`), as well as source (`src`) and destination (`dst`) points.  I chose the hardcode the source and destination points in the following manner:
+#### 3. Has a perspective transform been applied to rectify the image?
+The code for my perspective transform includes a function called `warper()`, which appears in lines 1 through 8 in the file `example.py` (output_images/examples/example.py) (or, for example, in the 3rd code cell of the IPython notebook).  The `warper()` function takes as inputs an image (`img`), as well as source (`src`) and destination (`dst`) points.  I chose the hardcode the source and destination points in the following manner:
 
 ```python
 src = np.float32([[img.shape[1]*(.5-mid_width/2), img.shape[0]*hight_pct],
@@ -75,26 +78,25 @@ This resulted in the following source and destination points:
 |:-------------:|:-------------:| 
 | 588.8, 446.4      | 320, 0       | 
 | 691.2, 446.4      | 960, 0       |
-| 1126.4, 673,2     | 960, 720      |
-| 143.6, 673.2      | 320, 720      |
+| 1126.4, 673,2     | 960, 720     |
+| 143.6, 673.2      | 320, 720     |
 
 I verified that my perspective transform was working as expected by drawing the `src` and `dst` points onto a test image and its warped counterpart to verify that the lines appear parallel in the warped image.
 
 ![alt text][image4]
 
-#### 4. Describe how (and identify where in your code) you identified lane-line pixels and fit their positions with a polynomial?
-
+#### 4. Have lane line pixels been identified in the rectified image and fit with a polynomial?
 Then I did some other stuff and fit my lane lines with the gradient of each sliding window kinda like this:
 
 ![alt text][image5]
 
 #### 5. Describe how (and identify where in your code) you calculated the radius of curvature of the lane and the position of the vehicle with respect to center.
 
-I did this in lines # through # in my code in `my_other_file.py`
+I did this in end of mean_process function my code in `project_main.ipynb`
 
 #### 6. Provide an example image of your result plotted back down onto the road such that the lane area is identified clearly.
 
-I implemented this step in lines # through # in my code in `yet_another_file.py` in the function `map_lane()`.  Here is an example of my result on a test image:
+I implemented this step in my code in `project_main.ipynb` in first few lines in the function `main_process()`.  Here is an example of my result on a test image:
 
 ![alt text][image6]
 
@@ -112,4 +114,4 @@ Here's a [link to my video result](./project_video.mp4)
 
 #### 1. Briefly discuss any problems / issues you faced in your implementation of this project.  Where will your pipeline likely fail?  What could you do to make it more robust?
 
-Here I'll talk about the approach I took, what techniques I used, what worked and why, where the pipeline might fail and how I might improve it if I were going to pursue this project further.  
+One problem I observe in this project is when the line in very bright sunlight or in connection of shadow and light, the grandient method may bent line to other side at the end of vision. I think the color binary transformation can do better job. I do not have time to try other methor or onther color space. 
